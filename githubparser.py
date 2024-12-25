@@ -112,7 +112,7 @@ class UserSaver:
         return total_users_count
 
 
-def run_github_users_parsing(query: str):
+def run_github_user_parsing(query: str):
     try:
 
         users = fetch_github_users(query)

@@ -4,35 +4,42 @@
 
 ## Как запустить
 
-1. Создайте виртуальное окружение:
+1. Клонируйте рипозиторий.
+```bash
+git clone https://github.com/diamanto2012/github_user_search.git
+cd github_user_search
+```
+2. Создайте виртуальное окружение:
 
 В командной строке выполните следующую команду, чтобы создать виртуальное окружение:
 
 ```bash
-python -m venv venv
+python3 -m venv venv
 ```
 Затем активируйте виртуальное окружение:
-На Windows:
 
-```bash
-venv\Scripts\activate
-```
-На macOS и Linux:
+На Linux и macOS:
 
 ```bash
 source venv/bin/activate
 ```
 
-2. Установите зависимости:
+На Windows:
+
 ```bash
-pip install requests sqlalchemy
+venv\Scripts\activate
+```
+
+3. Установите зависимости:
+```bash
+python -m pip install -r requirements.txt
 ```
 
 ## Использование
 
 Запустите скрипт:
 ```bash
-python main.py "python react native"
+python main.py "python django react native backend"
 ```
 В кавычках укажите поисковый запрос.
 
@@ -44,8 +51,7 @@ python main.py "python react native"
 Пример вывода:
 ```
 Получены пользователи с страницы 1
-Получены пользователи с страницы 2
-Добавлено 178 новых пользователей в базу данных.
+Добавлено 15 новых пользователей в базу данных.
 Общее количество пользователей в базе данных: 1743
 
 ```

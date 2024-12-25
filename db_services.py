@@ -33,7 +33,7 @@ class User(Base):
     score = Column(Float)
 
 
-class GitHubUserFetcher:
+class GitHubUserParser:
     def __init__(self, db_url="sqlite:///github_users.db"):
         # Подключение к базе данных SQLite
         self.engine = create_engine(db_url)

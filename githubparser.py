@@ -49,8 +49,8 @@ def fetch_github_users(query):
     return users
 
 
-class GitHubUserParser:
-    def __init__(self, db_url="sqlite:///github_users.db"):
+class UserSaver:
+    def __init__(self, db_url: str):
         # Подключение к базе данных SQLite
         self.engine = create_engine(db_url)
         Base.metadata.create_all(self.engine)
@@ -112,15 +112,19 @@ class GitHubUserParser:
         return total_users_count
 
 
-def run_github_parser(query: str):
+def run_github_users_parsing(query: str):
     try:
-        github_parser = GitHubUserParser()
-        users = fetch_github_users(query)
-        if users:  # Проверяем, есть ли пользователи для сохранения
-            github_parser.save_users_to_db(users)
 
-        total_users_count = github_parser.get_total_users_count()
-        print(f"Общее количество пользователей в базе данных: {total_users_count}")
+        users = fetch_github_users(query)
+
+        if users:
+            user_saver = UserSaver(db_url="sqlite:///github_users.db")
+            user_saver.save_users_to_db(users)
+            total_users_count = user_saver.get_total_users_count()
+            print(f"Общее количество пользователей в базе данных: {total_users_count}")
+        else:
+            print("Пользователи не найдены.")
+
     except Exception as e:
         raise GitHubUserParserException(
             f"Ошибка во время выполнения основной логики: {e}"

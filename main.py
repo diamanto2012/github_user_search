@@ -21,11 +21,16 @@ def run_github_fetcher(query: str):
 
 
 def main():
-    # Настройка аргументов командной строки
-    argument_command_line_parser = argparse.ArgumentParser(description='Поиск пользователей GitHub по запросу.')
-    argument_command_line_parser.add_argument('query', type=str, help='Поисковый запрос (например, "python django react native backend")')
-
     try:
+        # Настройка аргументов командной строки
+        argument_command_line_parser = argparse.ArgumentParser(
+            description="Поиск пользователей GitHub по запросу."
+        )
+        argument_command_line_parser.add_argument(
+            "query",
+            type=str,
+            help='Поисковый запрос (например, "python django react native backend")',
+        )
         args = argument_command_line_parser.parse_args()
         run_github_fetcher(query=args.query)
     except SystemExit as e:

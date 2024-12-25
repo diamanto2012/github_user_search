@@ -9,7 +9,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True)
     url = Column(String)
@@ -25,14 +25,16 @@ class User(Base):
     repos_url = Column(String)
     events_url = Column(String)
     received_events_url = Column(String)
-    user_type = Column(String)  # Изменено с 'type' на 'user_type', чтобы избежать конфликта с ключевым словом
+    user_type = Column(
+        String
+    )  # Изменено с 'type' на 'user_type', чтобы избежать конфликта с ключевым словом
     user_view_type = Column(String)
     site_admin = Column(Boolean)
     score = Column(Float)
 
 
 class GitHubUserFetcher:
-    def __init__(self, db_url='sqlite:///github_users.db'):
+    def __init__(self, db_url="sqlite:///github_users.db"):
         # Подключение к базе данных SQLite
         self.engine = create_engine(db_url)
         Base.metadata.create_all(self.engine)
@@ -48,21 +50,27 @@ class GitHubUserFetcher:
                 response.raise_for_status()  # Генерирует исключение для HTTP ошибок
 
                 # Проверяем лимиты API
-                remaining_requests = int(response.headers.get('X-RateLimit-Remaining', 0))
-                reset_time = int(response.headers.get('X-RateLimit-Reset', 0))
+                remaining_requests = int(
+                    response.headers.get("X-RateLimit-Remaining", 0)
+                )
+                reset_time = int(response.headers.get("X-RateLimit-Reset", 0))
 
                 if remaining_requests == 0:
                     wait_time = reset_time - int(time.time())
                     if wait_time > 0:
-                        print(f"Достигнут лимит запросов. Ожидание {wait_time} секунд до сброса лимита.")
+                        print(
+                            f"Достигнут лимит запросов. Ожидание {wait_time} секунд до сброса лимита."
+                        )
                         time.sleep(wait_time)  # Ждем сброса лимита
 
                 data = response.json()
 
                 # Проверяем наличие пользователей в ответе
-                if 'items' in data and data['items']:
-                    users.extend(data['items'])
-                    print(f"Получены пользователи с страницы {page}: {len(data['items'])} пользователей.")
+                if "items" in data and data["items"]:
+                    users.extend(data["items"])
+                    print(
+                        f"Получены пользователи с страницы {page}: {len(data['items'])} пользователей."
+                    )
                     page += 1
                 else:
                     print("Достигнута последняя страница или нет пользователей.")
@@ -80,32 +88,44 @@ class GitHubUserFetcher:
             try:
                 for user in users:
                     github_user = User(
-                        username=user['login'],
-                        url=user['html_url'],
-                        avatar_url=user['avatar_url'],
-                        node_id=user['node_id'],
-                        gravatar_id=user.get('gravatar_id', ''),  # Используем get для безопасного доступа
-                        followers_url=user['followers_url'],
-                        following_url=user['following_url'],
-                        gists_url=user['gists_url'],
-                        starred_url=user['starred_url'],
-                        subscriptions_url=user['subscriptions_url'],
-                        organizations_url=user['organizations_url'],
-                        repos_url=user['repos_url'],
-                        events_url=user['events_url'],
-                        received_events_url=user['received_events_url'],
-                        user_type=user['type'],  # Переименовано на user_type
-                        user_view_type=user.get('user_view_type', ''),  # Используем get для безопасного доступа
-                        site_admin=user.get('site_admin', False),  # Используем get для безопасного доступа
-                        score=user.get('score', 0.0)  # Используем get для безопасного доступа
+                        username=user["login"],
+                        url=user["html_url"],
+                        avatar_url=user["avatar_url"],
+                        node_id=user["node_id"],
+                        gravatar_id=user.get(
+                            "gravatar_id", ""
+                        ),  # Используем get для безопасного доступа
+                        followers_url=user["followers_url"],
+                        following_url=user["following_url"],
+                        gists_url=user["gists_url"],
+                        starred_url=user["starred_url"],
+                        subscriptions_url=user["subscriptions_url"],
+                        organizations_url=user["organizations_url"],
+                        repos_url=user["repos_url"],
+                        events_url=user["events_url"],
+                        received_events_url=user["received_events_url"],
+                        user_type=user["type"],  # Переименовано на user_type
+                        user_view_type=user.get(
+                            "user_view_type", ""
+                        ),  # Используем get для безопасного доступа
+                        site_admin=user.get(
+                            "site_admin", False
+                        ),  # Используем get для безопасного доступа
+                        score=user.get(
+                            "score", 0.0
+                        ),  # Используем get для безопасного доступа
                     )
                     # Проверяем, существует ли уже пользователь в базе данных
-                    existing_user = session.query(User).filter_by(username=user['login']).first()
+                    existing_user = (
+                        session.query(User).filter_by(username=user["login"]).first()
+                    )
                     if existing_user is None:
                         session.add(github_user)
                         new_users_count += 1
                     else:
-                        print(f"Пользователь {user['login']} уже существует в базе данных.")
+                        print(
+                            f"Пользователь {user['login']} уже существует в базе данных."
+                        )
                 session.commit()
                 print(f"Добавлено {new_users_count} новых пользователей в базу данных.")
             except Exception as e:
@@ -130,8 +150,12 @@ def main(query):
 
 if __name__ == "__main__":
     # Настройка аргументов командной строки
-    parser = argparse.ArgumentParser(description='Поиск пользователей GitHub по запросу.')
-    parser.add_argument('query', type=str, help='Поисковый запрос (например, "octocat")')
+    parser = argparse.ArgumentParser(
+        description="Поиск пользователей GitHub по запросу."
+    )
+    parser.add_argument(
+        "query", type=str, help='Поисковый запрос (например, "octocat")'
+    )
 
     args = parser.parse_args()
 

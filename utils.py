@@ -1,22 +1,7 @@
 import argparse
 
-from db_services import GitHubUserParser
+from githubparser import GitHubUserParser
 from exceptions import GitHubUserParserException, ArgumentCommandLineParsingException
-
-
-def run_github_parser(query: str):
-    try:
-        github_parser = GitHubUserParser()
-        users = github_parser.fetch_github_users(query)
-        if users:  # Проверяем, есть ли пользователи для сохранения
-            github_parser.save_users_to_db(users)
-
-        total_users_count = github_parser.get_total_users_count()
-        print(f"Общее количество пользователей в базе данных: {total_users_count}")
-    except Exception as e:
-        raise GitHubUserParserException(
-            f"Ошибка во время выполнения основной логики: {e}"
-        )
 
 
 def get_command_line_arguments():

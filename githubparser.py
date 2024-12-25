@@ -1,10 +1,10 @@
-import requests
 import time
-from sqlalchemy import create_engine, Column, String, Integer, Boolean, Float
-from sqlalchemy.orm import declarative_base, sessionmaker
-import argparse
 
-from db_services import User, Base
+import requests
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from db_service import User, Base
 from exceptions import GitHubUserParserException
 
 

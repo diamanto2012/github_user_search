@@ -1,5 +1,5 @@
-from utils import get_command_line_arguments
 from githubparser import run_github_parser
+from utils import get_command_line_arguments
 
 
 def main():

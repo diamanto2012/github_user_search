@@ -1,7 +1,6 @@
 import argparse
 
-from githubparser import GitHubUserParser
-from exceptions import GitHubUserParserException, ArgumentCommandLineParsingException
+from exceptions import ArgumentCommandLineParsingException
 
 
 def get_command_line_arguments():

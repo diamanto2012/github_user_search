@@ -1,8 +1,5 @@
-import requests
-import time
-from sqlalchemy import create_engine, Column, String, Integer, Boolean, Float
-from sqlalchemy.orm import declarative_base, sessionmaker
-import argparse
+from sqlalchemy import Column, String, Integer, Boolean, Float
+from sqlalchemy.orm import declarative_base
 
 # Определяем базу данных и модель
 Base = declarative_base()

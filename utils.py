@@ -1,7 +1,7 @@
 import argparse
 
 from db_services import GitHubUserParser
-from exceptions import GitHubUserParserException, ArgumentCommandLineParisngException
+from exceptions import GitHubUserParserException, ArgumentCommandLineParsingException
 
 
 def run_github_parser(query: str):
@@ -32,6 +32,6 @@ def get_command_line_arguments():
         args = argument_command_line_parser.parse_args()
         return args
     except Exception as e:
-        raise ArgumentCommandLineParisngException(
+        raise ArgumentCommandLineParsingException(
             "Не удалось спарсить аргументы коммандной строки."
         )

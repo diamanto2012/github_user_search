@@ -1,4 +1,4 @@
-class ArgumentCommandLineParisngException(Exception):
+class ArgumentCommandLineParsingException(Exception):
     pass
 
 

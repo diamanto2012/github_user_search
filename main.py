@@ -1,7 +1,8 @@
 import argparse
 from services import GitHubUserFetcher
 
-def main(query):
+
+def run_parser(query: str):
     try:
         fetcher = GitHubUserFetcher()
     except Exception as e:
@@ -18,14 +19,15 @@ def main(query):
     except Exception as e:
         print(f"Ошибка во время выполнения основной логики: {e}")
 
+
 if __name__ == "__main__":
     # Настройка аргументов командной строки
     parser = argparse.ArgumentParser(description='Поиск пользователей GitHub по запросу.')
-    parser.add_argument('query', type=str, help='Поисковый запрос (например, "octocat")')
+    parser.add_argument('query', type=str, help='Поисковый запрос (например, "python django react native backend")')
 
     try:
         args = parser.parse_args()
-        main(args.query)
+        run_parser(query=args.query)
     except SystemExit as e:
         print("Ошибка при обработке аргументов командной строки.")
     except Exception as e:
